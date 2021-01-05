@@ -286,7 +286,7 @@ getData() {
     echo ""
     if [[ "$(needNginx)" = "no" ]]; then
         if [[ "$TLS" = "true" ]]; then
-            read -p " 请输入xray监听端口[强烈建议443，默认443]：" PORT
+            read -p " 请输入xray监听端口[强烈建议，默认443]：" PORT
             [[ -z "${PORT}" ]] && PORT=443
         else
             read -p " 请输入xray监听端口[100-65535的一个数字]：" PORT
@@ -512,13 +512,7 @@ getCert() {
     if [[ -z ${CERT_FILE+x} ]]; then
         stopNginx
         systemctl stop xray
-        res=`netstat -ntlp| grep -E ':80 |:443 '`
-        if [[ "${res}" != "" ]]; then
-            colorEcho ${RED}  " 其他进程占用了80或443端口，请先关闭再运行一键脚本"
-            echo " 端口占用信息如下："
-            echo ${res}
-            exit 1
-        fi
+      
 
         $CMD_INSTALL socat openssl
         if [[ "$PMT" = "yum" ]]; then
